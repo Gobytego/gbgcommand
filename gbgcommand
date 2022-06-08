@@ -52,7 +52,7 @@ if [ "$ask" == "UPDATE THIS APP" ]; then
     mkdir /home/$USER/bin/old
     mv /home/$USER/bin/upd /home/$USER/bin/old/
     mv /home/$USER/bin/conkyrestart.sh /home/$USER/bin/old/
-    mv /home/$USER/bin/help.txt/home/$USER/bin/old/
+    mv /home/$USER/bin/help.txt /home/$USER/bin/old/
     mv /home/$USER/bin/help /home/$USER/bin/old/
     mv /home/$USER/bin/howold /home/$USER/bin/old/
     mv /home/$USER/bin/speedtest /home/$USER/bin/old/
