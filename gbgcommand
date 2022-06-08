@@ -4,13 +4,13 @@
 #ask for password
 # PASSWD="$(zenity --password --title=Authentication)\n"
 
-ask=`zenity --list --title="GOBYTEGO COMMAND" --column="0" "UPGRADE SYSTEM" "HOW OLD IS YOUR SYSTEM" "INTERNET SPEEDTEST" "IP INFO" "CONKY RESTART" "HELP" --width=300 --height=400 --hide-header`
+ask=`zenity --list --title="GOBYTEGO COMMAND" --column="0" "UPGRADE SYSTEM" "HOW OLD IS YOUR SYSTEM" "INTERNET SPEEDTEST" "IP INFO" "CONKY RESTART" "HELP" "UPDATE THIS APP" --width=300 --height=400 --hide-header`
 
 # update with upd
 ## need to make a cleaner solution for the upd script
 
 if [ "$ask" == "UPGRADE SYSTEM" ]; then
-    #PASSWD="$(zenity --password --title=Authentication)\n" &&  echo -e $PASSWD | sh /home/$USER/bin/upd > /home/$USER/bin/updated.log | zenity --progress && zenity --info --title "UPDATING SYSTEM" --text "System has been updated & cleane>
+    #PASSWD="$(zenity --password --title=Authentication)\n" &&  echo -e $PASSWD | sh /home/$USER/bin/upd > /home/$USER/bin/updated.log | zenity --progress && zenity --info --title "UPDATING SYSTEM" --text "System has been updated & cleaned"
     PASSWD="$(zenity --password --title=Authentication)\n" &&  echo -e $PASSWD | sh /home/$USER/bin/upd > /tmp/updated.txt
     zenity --text-info --title "UPDATING" --filename /tmp/updated.txt
     zenity --info --title "Reboot?" --text $(less /tmp/updated.txt | grep -a "<<")
@@ -46,6 +46,26 @@ fi
 # help
 if [ "$ask" == "HELP" ]; then
     sh /home/$USER/bin/help
+fi
+
+if [ "$ask" == "UPDATE THIS APP" ]; then
+    mkdir /home/$USER/bin/old
+    mv /home/$USER/bin/upd /home/$USER/bin/old/
+    mv /home/$USER/bin/conkyrestart.sh /home/$USER/bin/old/
+    mv /home/$USER/bin/help.txt/home/$USER/bin/old/
+    mv /home/$USER/bin/help /home/$USER/bin/old/
+    mv /home/$USER/bin/howold /home/$USER/bin/old/
+    mv /home/$USER/bin/speedtest /home/$USER/bin/old/
+    mv /home/$USER/bin/gbgcommand /home/$USER/bin/old/
+    wget https://raw.githubusercontent.com/Gobytego/gbgcommand/main/gbgcommand -P /home/$USER/bin/
+    wget https://raw.githubusercontent.com/Gobytego/howold/main/howold -P /home/$USER/bin/
+    wget https://raw.githubusercontent.com/Gobytego/conkyrestart/main/conkyrestart.sh -P /home/$USER/bin/
+    wget https://raw.githubusercontent.com/Gobytego/speedtest/main/speedtest -P /home/$USER/bin/
+    wget https://raw.githubusercontent.com/Gobytego/upd/main/upd -P /home/$USER/bin/
+    wget wget https://raw.githubusercontent.com/Gobytego/help/main/help -P /home/$USER/bin/
+    wget https://raw.githubusercontent.com/Gobytego/help/main/help.txt -P /home/$USER/bin/
+    chmod +x help speedtest gbgcommand howold conkyrestart.sh upd
+    zenity --info --title "GBGCOMMAND UPDATER" --text "GBGCOMMAND AND ITS SCRIPTS HAVE BEEN UPDATED"
 fi
 
 exit 0
