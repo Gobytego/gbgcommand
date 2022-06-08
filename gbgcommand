@@ -1,0 +1,51 @@
+#! /bin/bash
+
+##set variables
+#ask for password
+# PASSWD="$(zenity --password --title=Authentication)\n"
+
+ask=`zenity --list --title="GOBYTEGO COMMAND" --column="0" "UPGRADE SYSTEM" "HOW OLD IS YOUR SYSTEM" "INTERNET SPEEDTEST" "IP INFO" "CONKY RESTART" "HELP" --width=300 --height=400 --hide-header`
+
+# update with upd
+## need to make a cleaner solution for the upd script
+
+if [ "$ask" == "UPGRADE SYSTEM" ]; then
+    #PASSWD="$(zenity --password --title=Authentication)\n" &&  echo -e $PASSWD | sh /home/$USER/bin/upd > /home/$USER/bin/updated.log | zenity --progress && zenity --info --title "UPDATING SYSTEM" --text "System has been updated & cleane>
+    PASSWD="$(zenity --password --title=Authentication)\n" &&  echo -e $PASSWD | sh /home/$USER/bin/upd > /tmp/updated.txt
+    zenity --text-info --title "UPDATING" --filename /tmp/updated.txt
+    zenity --info --title "Reboot?" --text $(less /tmp/updated.txt | grep -a "<<")
+
+fi
+
+# how old
+if [ "$ask" == "HOW OLD IS YOUR SYSTEM" ]; then
+    PASSWD="$(zenity --password --title=Authentication)\n" &&  echo -e $PASSWD | sh /home/$USER/bin/howold > /tmp/howold.txt
+    zenity --text-info --title "HOWOLD" --filename "/tmp/howold.txt"
+    rm /tmp/howold.txt
+fi
+
+# speedtest
+if [ "$ask" == "INTERNET SPEEDTEST" ]; then
+    #sh /home/$USER/bin/speedtest
+    zenity --info --title speedtest --text="$(/home/$USER/bin/speedtest 2>&1)" | zenity --progress --percentage=0 --auto-close
+fi
+
+# ipinfo
+if [ "$ask" == "IP INFO" ]; then
+
+    ip addr | grep 'inet ' > /tmp/ipinfo.txt
+    zenity --text-info --title "IP Info" --filename "/tmp/ipinfo.txt"
+    rm /tmp/ipinfo.txt
+fi
+
+# Conky restart
+if [ "$ask" == "CONKY RESTART" ]; then
+    zenity --info --title "Conky Restart" --text "conky was restarted." & sh /home/$USER/bin/conkyrestart.sh
+fi
+
+# help
+if [ "$ask" == "HELP" ]; then
+    sh /home/$USER/bin/help
+fi
+
+exit 0
