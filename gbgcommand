@@ -48,6 +48,7 @@ if [ "$ask" == "HELP" ]; then
     sh /home/$USER/bin/help
 fi
 
+#update this app
 if [ "$ask" == "UPDATE THIS APP" ]; then
     mkdir /home/$USER/bin/old
     mv /home/$USER/bin/upd /home/$USER/bin/old/
